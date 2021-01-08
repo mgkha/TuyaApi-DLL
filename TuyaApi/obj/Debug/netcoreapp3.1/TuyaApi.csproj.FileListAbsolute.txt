@@ -1,0 +1,8 @@
+C:\Users\KHA\source\repos\TuyaApi\TuyaApi\bin\Debug\netcoreapp3.1\TuyaApi.deps.json
+C:\Users\KHA\source\repos\TuyaApi\TuyaApi\bin\Debug\netcoreapp3.1\TuyaApi.dll
+C:\Users\KHA\source\repos\TuyaApi\TuyaApi\bin\Debug\netcoreapp3.1\TuyaApi.pdb
+C:\Users\KHA\source\repos\TuyaApi\TuyaApi\obj\Debug\netcoreapp3.1\TuyaApi.csprojAssemblyReference.cache
+C:\Users\KHA\source\repos\TuyaApi\TuyaApi\obj\Debug\netcoreapp3.1\TuyaApi.AssemblyInfoInputs.cache
+C:\Users\KHA\source\repos\TuyaApi\TuyaApi\obj\Debug\netcoreapp3.1\TuyaApi.AssemblyInfo.cs
+C:\Users\KHA\source\repos\TuyaApi\TuyaApi\obj\Debug\netcoreapp3.1\TuyaApi.dll
+C:\Users\KHA\source\repos\TuyaApi\TuyaApi\obj\Debug\netcoreapp3.1\TuyaApi.pdb
