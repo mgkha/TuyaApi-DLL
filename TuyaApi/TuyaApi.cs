@@ -40,7 +40,7 @@ namespace TuyaApi
             }
         }
 
-        public async Task Login(string userName, string password, string countryCode = "95", string bizType = "tuya", string from = "tuya")
+        public async Task<string> Login(string userName, string password, string countryCode = "95", string bizType = "tuya", string from = "tuya")
         {
             var reqData = new LoginRequest
             {
@@ -52,21 +52,35 @@ namespace TuyaApi
             };
             var res = await ApiServices.PostFormData<LoginResponse>(loginUri, reqData.GetFormData());
 
-            if (!string.IsNullOrEmpty(res.Access_token))
+            if (res.ResponseStatus != "error" && !string.IsNullOrEmpty(res.Access_token))
             {
                 SessionData = new Session
                 {
                     Access_token = res.Access_token,
                     Refresh_token = res.Refresh_token,
                     Token_type = res.Token_type,
-                    Expires_in = res.Expires_in
+                    Expires_in = res.Expires_in,
+                    Expires_at = DateTimeOffset.Now.ToUnixTimeSeconds() + res.Expires_in,
                 };
                 if (!Directory.Exists(Path.GetDirectoryName(tokenPath)))
                 {
                     Directory.CreateDirectory(Path.GetDirectoryName(tokenPath));
                 }
                 File.WriteAllText(tokenPath, SessionData.ToString());
+                return "success";
             }
+            else
+            {
+                return res.ErrorMsg;
+            }
+        }
+
+        public void Logout()
+        {
+            SessionData = null;
+            DevicesList = null;
+            File.Delete(tokenPath);
+            File.Delete(devicesListPath);
         }
 
         public async Task RefreshToken()
@@ -84,7 +98,8 @@ namespace TuyaApi
                     Access_token = res.Access_token,
                     Refresh_token = res.Refresh_token,
                     Token_type = res.Token_type,
-                    Expires_in = res.Expires_in
+                    Expires_in = res.Expires_in,
+                    Expires_at = DateTimeOffset.Now.ToUnixTimeSeconds() + res.Expires_in,
                 };
                 if (!Directory.Exists(Path.GetDirectoryName(tokenPath)))
                 {
@@ -96,6 +111,11 @@ namespace TuyaApi
 
         public async Task DiscoverDevices()
         {
+            if (SessionData == null)
+            {
+                return;
+            }
+
             var reqData = new DeviceRequest
             {
                 Header = new DeviceRequest_Header
@@ -149,6 +169,11 @@ namespace TuyaApi
             await ApiServices.PostJsonData<DeviceResponse>(deviceUri, reqData.ToString());
         }
 
+        public bool IsAuthenticated()
+        {
+            return SessionData != null && SessionData.Access_token != null && SessionData.Expires_at > DateTimeOffset.Now.ToUnixTimeSeconds();
+        }
+
     }
 
     class Session
@@ -157,6 +182,7 @@ namespace TuyaApi
         public string Refresh_token { get; set; }
         public string Token_type { get; set; }
         public int Expires_in { get; set; }
+        public long Expires_at { get; set; }
         public override string ToString()
         {
             return JsonConvert.SerializeObject(this, new JsonSerializerSettings
