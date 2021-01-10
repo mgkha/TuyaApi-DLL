@@ -116,6 +116,9 @@ namespace TuyaApi
                 return;
             }
 
+            if (SessionData.Expires_at < DateTimeOffset.Now.ToUnixTimeSeconds())
+                await RefreshToken();
+
             var reqData = new DeviceRequest
             {
                 Header = new DeviceRequest_Header
@@ -151,6 +154,9 @@ namespace TuyaApi
 
         public async void ControlDevicesAsync(string deviceId, int state)
         {
+            if (SessionData.Expires_at < DateTimeOffset.Now.ToUnixTimeSeconds())
+                await RefreshToken();
+
             var reqData = new DeviceRequest
             {
                 Header = new DeviceRequest_Header
