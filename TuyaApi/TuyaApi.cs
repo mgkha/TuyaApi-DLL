@@ -78,7 +78,7 @@ namespace TuyaApi
         public void Logout()
         {
             SessionData = null;
-            DevicesList = null;
+            DevicesList.Clear();
             File.Delete(tokenPath);
             File.Delete(devicesListPath);
         }
