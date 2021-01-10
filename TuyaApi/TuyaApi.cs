@@ -10,8 +10,8 @@ namespace TuyaApi
 {
     public class TuyaApi
     {
-        public static string tokenPath = Environment.GetFolderPath(System.Environment.SpecialFolder.UserProfile) + @"\tuya\credentials.txt";
-        public static string devicesListPath = Environment.GetFolderPath(System.Environment.SpecialFolder.UserProfile) + @"\tuya\devices.txt";
+        public static string tokenPath = Environment.GetFolderPath(System.Environment.SpecialFolder.UserProfile) + @"\tuya\credentials.json";
+        public static string devicesListPath = Environment.GetFolderPath(System.Environment.SpecialFolder.UserProfile) + @"\tuya\devices.json";
         public static string loginUri = "https://px1.tuyaus.com/homeassistant/auth.do";
         public static string refreshTokenUri = "https://px1.tuyaus.com/homeassistant/access.do";
         public static string deviceUri = "https://px1.tuyaus.com/homeassistant/skill";
